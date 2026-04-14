@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Probabilidad - Edwin</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #eef2f3; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 550px; width: 100%; }
+        h2 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        .section { margin-bottom: 15px; padding: 15px; border: 1px solid #dcdde1; border-radius: 10px; background: #fff; }
+        .section-title { font-weight: bold; color: #2f3640; margin-bottom: 10px; display: block; font-size: 0.95em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+        input { padding: 10px; border: 2px solid #ddd; border-radius: 6px; text-align: center; font-size: 15px; width: 100%; box-sizing: border-box; }
+        input:focus { border-color: #3498db; outline: none; }
+        .btn-calc { width: 100%; padding: 15px; background: #2c3e50; color: white; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-calc:hover { background: #34495e; }
+        .result-container { margin-top: 20px; text-align: center; padding: 20px; border-radius: 10px; }
+        #total { font-size: 3em; font-weight: bold; margin: 0; }
+        #status { font-weight: bold; margin-top: 5px; font-size: 1.2em; }
+        .optional { background-color: #f1f2f6; border-style: dashed; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Probabilidad: Calculadora</h2>
+    
+    <div class="section">
+        <span class="section-title">Clase de Ejercicios (20%)</span>
+        <input type="number" id="clase" placeholder="Nota 0-100" min="0" max="100">
+    </div>
+
+    <div class="section">
+        <span class="section-title">Asincrónicas y Pruebas (25%)</span>
+        <div class="grid">
+            <input type="number" id="pruebas" placeholder="Pruebas (15%)" min="0" max="100">
+            <input type="number" id="datacamp" placeholder="DataCamp (10%)" min="0" max="100">
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">Exámenes Parciales (35%)</span>
+        <div class="grid">
+            <input type="number" id="parcial1" placeholder="Parcial I (15%)" min="0" max="100">
+            <input type="number" id="parcial2" placeholder="Parcial II (20%)" min="0" max="100">
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">Examen Final (20%)</span>
+        <input type="number" id="final" placeholder="Nota Examen Final" min="0" max="100">
+    </div>
+
+    <div class="section optional">
+        <span class="section-title">Proyecto Opcional (Extra 6%)</span>
+        <input type="number" id="proyecto" placeholder="Nota Proyecto" min="0" max="100">
+    </div>
+
+    <button class="btn-calc" onclick="calcular()">CALCULAR NOTA FINAL</button>
+
+    <div id="res-box" class="result-container" style="background: #f8f9fa;">
+        <p id="total">0.00</p>
+        <p id="status">Ingresa tus notas</p>
+    </div>
+</div>
+
+<script>
+    function calcular() {
+        const getV = (id) => {
+            let n = parseFloat(document.getElementById(id).value) || 0;
+            return n > 100 ? 100 : (n < 0 ? 0 : n);
+        };
+
+        // Pesos según la nueva tabla
+        let notaClase = getV('clase') * 0.20;
+        let notaAsinc = (getV('pruebas') * 0.15) + (getV('datacamp') * 0.10);
+        let notaParciales = (getV('parcial1') * 0.15) + (getV('parcial2') * 0.20);
+        let notaExFinal = getV('final') * 0.20;
+        let extraProyecto = getV('proyecto') * 0.06;
+
+        let finalTotal = notaClase + notaAsinc + notaParciales + notaExFinal + extraProyecto;
+        
+        // Tope máximo de 100
+        if (finalTotal > 100) finalTotal = 100;
+
+        const totalDisplay = document.getElementById('total');
+        const statusDisplay = document.getElementById('status');
+        const resBox = document.getElementById('res-box');
+
+        totalDisplay.innerText = finalTotal.toFixed(2);
+
+        if (finalTotal >= 71) {
+            statusDisplay.innerText = "¡Aprobado!";
+            resBox.style.background = "#dff9fb";
+            totalDisplay.style.color = "#0984e3";
+            statusDisplay.style.color = "#0984e3";
+        } else {
+            statusDisplay.innerText = "Reprobado (Faltan " + (71 - finalTotal).toFixed(2) + " pts)";
+            resBox.style.background = "#fab1a0";
+            totalDisplay.style.color = "#d63031";
+            statusDisplay.style.color = "#d63031";
+        }
+    }
+</script>
+
+</body>
+</html>
