@@ -3,64 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Calificaciones</title>
+    <title>Calculadora de Notas Académicas</title>
     <style>
-        body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 20px; line-height: 1.6; }
-        .group { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
-        h3 { margin-top: 0; color: #2c3e50; }
-        input { width: 60px; padding: 5px; margin: 5px; }
-        .result { font-size: 1.5em; font-weight: bold; color: #27ae60; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
+        h2 { color: #1a3a5a; text-align: center; margin-bottom: 20px; border-bottom: 3px solid #71b7e6; padding-bottom: 10px; }
+        .section { margin-bottom: 15px; padding: 12px; border: 1px solid #e1e4e8; border-radius: 10px; }
+        .section-title { font-weight: 600; color: #444; margin-bottom: 8px; display: block; font-size: 0.9em; }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 8px; }
+        input { padding: 10px; border: 2px solid #ddd; border-radius: 6px; text-align: center; font-size: 15px; transition: 0.3s; }
+        input:focus { border-color: #71b7e6; outline: none; }
+        .btn-calc { width: 100%; padding: 15px; background: #1a3a5a; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-calc:hover { background: #2c527a; }
+        .result-container { margin-top: 20px; text-align: center; padding: 15px; border-radius: 10px; transition: 0.5s; }
+        #total { font-size: 2.5em; font-weight: bold; margin: 0; }
+        #status { font-weight: bold; margin-top: 5px; text-transform: uppercase; }
+        .extra-info { background-color: #fff9db; border-color: #f1c40f; }
     </style>
 </head>
 <body>
-    <h2>Calculadora de Notas (1-100)</h2>
 
-    <div class="group">
-        <h3>Exámenes Parciales (20% c/u)</h3>
-        <input type="number" id="p1" placeholder="P1" min="0" max="100">
-        <input type="number" id="p2" placeholder="P2" min="0" max="100">
-        <input type="number" id="p3" placeholder="P3" min="0" max="100">
+<div class="card">
+    <h2>Control de Notas</h2>
+    
+    <div class="section">
+        <span class="section-title">Parciales (20% c/u) - Máx 60</span>
+        <div class="input-grid">
+            <input type="number" id="p1" placeholder="P1" min="0" max="100">
+            <input type="number" id="p2" placeholder="P2" min="0" max="100">
+            <input type="number" id="p3" placeholder="P3" min="0" max="100">
+        </div>
     </div>
 
-    <div class="group">
-        <h3>Pruebas Cortas (5% c/u)</h3>
-        <input type="number" id="pc1" placeholder="C1" min="0" max="100">
-        <input type="number" id="pc2" placeholder="C2" min="0" max="100">
-        <input type="number" id="pc3" placeholder="C3" min="0" max="100">
-        <input type="number" id="pc4" placeholder="C4" min="0" max="100">
+    <div class="section">
+        <span class="section-title">Pruebas Cortas (5% c/u) - Máx 20</span>
+        <div class="input-grid">
+            <input type="number" id="pc1" placeholder="C1" min="0" max="100">
+            <input type="number" id="pc2" placeholder="C2" min="0" max="100">
+            <input type="number" id="pc3" placeholder="C3" min="0" max="100">
+            <input type="number" id="pc4" placeholder="C4" min="0" max="100">
+        </div>
     </div>
 
-    <div class="group">
-        <h3>Clase de Ejercicios (20%)</h3>
-        <input type="number" id="ejercicios" placeholder="Nota" min="0" max="100">
+    <div class="section">
+        <span class="section-title">Clase de Ejercicios - Máx 20</span>
+        <input type="number" id="ejercicios" style="width: 100%; box-sizing: border-box;" placeholder="Nota 0-100" min="0" max="100">
     </div>
 
-    <div class="group">
-        <h3>Deberes Opcionales (+2% c/u)</h3>
-        <input type="number" id="d1" placeholder="D1" min="0" max="100">
-        <input type="number" id="d2" placeholder="D2" min="0" max="100">
-        <input type="number" id="d3" placeholder="D3" min="0" max="100">
+    <div class="section extra-info">
+        <span class="section-title">Deberes (Puntos Extra) - +2 pts c/u</span>
+        <div class="input-grid">
+            <input type="number" id="d1" placeholder="D1" min="0" max="100">
+            <input type="number" id="d2" placeholder="D2" min="0" max="100">
+            <input type="number" id="d3" placeholder="D3" min="0" max="100">
+        </div>
     </div>
 
-    <button onclick="calcular()" style="width: 100%; padding: 10px; cursor: pointer;">Calcular Total</button>
+    <button class="btn-calc" onclick="calcular()">CALCULAR RESULTADO</button>
 
-    <p class="result" id="total">Total: 0 / 100</p>
+    <div id="res-box" class="result-container" style="background: #eee;">
+        <p id="total">0.00</p>
+        <p id="status">Esperando datos...</p>
+    </div>
+</div>
 
-    <script>
-        function calcular() {
-            const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
+<script>
+    function calcular() {
+        const getV = (id) => {
+            let n = parseFloat(document.getElementById(id).value) || 0;
+            return n > 100 ? 100 : (n < 0 ? 0 : n);
+        };
 
-            // Cálculo ponderado
-            let parciales = (getV('p1') + getV('p2') + getV('p3')) * 0.20;
-            let cortas = (getV('pc1') + getV('pc2') + getV('pc3') + getV('pc4')) * 0.05;
-            let ejercicios = getV('ejercicios') * 0.20;
-            let deberes = (getV('d1') + getV('d2') + getV('d3')) * 0.02;
+        // Cálculos base
+        let notaBase = ((getV('p1') + getV('p2') + getV('p3')) * 0.20) + 
+                       ((getV('pc1') + getV('pc2') + getV('pc3') + getV('pc4')) * 0.05) + 
+                       (getV('ejercicios') * 0.20);
 
-            let final = parciales + cortas + ejercicios + deberes;
-            
-            // Mostrar resultado limitado a 100 o permitiendo extra puntos
-            document.getElementById('total').innerText = "Total: " + final.toFixed(2) + " / 100";
+        // Puntos extra de deberes
+        let puntosExtra = (getV('d1') + getV('d2') + getV('d3')) * 0.02;
+
+        // Suma final con tope en 100
+        let final = notaBase + puntosExtra;
+        if (final > 100) final = 100;
+
+        // Actualizar interfaz
+        const totalDisplay = document.getElementById('total');
+        const statusDisplay = document.getElementById('status');
+        const resBox = document.getElementById('res-box');
+
+        totalDisplay.innerText = final.toFixed(2);
+
+        if (final >= 71) {
+            statusDisplay.innerText = "Aprobado";
+            resBox.style.background = "#d4edda";
+            totalDisplay.style.color = "#155724";
+            statusDisplay.style.color = "#155724";
+        } else {
+            statusDisplay.innerText = "Reprobado (Faltan " + (71 - final).toFixed(2) + " pts)";
+            resBox.style.background = "#f8d7da";
+            totalDisplay.style.color = "#721c24";
+            statusDisplay.style.color = "#721c24";
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
