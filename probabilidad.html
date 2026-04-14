@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Probabilidad - Edwin</title>
+    <title>Control de Notas - Probabilidad</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f4f8; display: flex; justify-content: center; padding: 20px; }
         .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 550px; width: 100%; }
@@ -24,12 +24,7 @@
 <body>
 
 <div class="card">
-    <h2>Probabilidad: Calculadora</h2>
-    
-    <div class="section">
-        <span class="section-title">Clase de Ejercicios (20%)</span>
-        <input type="number" id="clase" placeholder="Nota 0-100" min="0" max="100">
-    </div>
+    <h2>Control de Notas: Probabilidad</h2>
 
     <div class="section">
         <span class="section-title">Asincrónicas y Pruebas cortas (25%)</span>
@@ -54,6 +49,11 @@
         <input type="number" id="final" placeholder="Nota Examen Final" min="0" max="100">
     </div>
 
+    <div class="section">
+        <span class="section-title">Clase de Ejercicios (20%)</span>
+        <input type="number" id="clase" placeholder="Nota 0-100" min="0" max="100">
+    </div>
+
     <div class="section extra-section">
         <span class="section-title">⭐ Proyecto Final (Puntos Extra: 6%)</span>
         <input type="number" id="proyecto" placeholder="Nota Proyecto 0-100" min="0" max="100">
@@ -74,7 +74,7 @@
             return n > 100 ? 100 : (n < 0 ? 0 : n);
         };
 
-        // Componentes que suman el 100%
+        // Componentes base
         let clase = getV('clase') * 0.20;
         let pruebasCortas = (getV('pc1') + getV('pc2') + getV('pc3')) * 0.05;
         let datacamp = getV('datacamp') * 0.10;
@@ -88,7 +88,7 @@
 
         let notaFinal = notaBase + puntosExtraProyecto;
         
-        // El total no debe superar 100
+        // Tope máximo de 100
         if (notaFinal > 100) notaFinal = 100;
 
         const totalDisplay = document.getElementById('total');
