@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Calificaciones</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 20px; line-height: 1.6; }
+        .group { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 8px; }
+        h3 { margin-top: 0; color: #2c3e50; }
+        input { width: 60px; padding: 5px; margin: 5px; }
+        .result { font-size: 1.5em; font-weight: bold; color: #27ae60; text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Calculadora de Notas (1-100)</h2>
+
+    <div class="group">
+        <h3>Exámenes Parciales (20% c/u)</h3>
+        <input type="number" id="p1" placeholder="P1" min="0" max="100">
+        <input type="number" id="p2" placeholder="P2" min="0" max="100">
+        <input type="number" id="p3" placeholder="P3" min="0" max="100">
+    </div>
+
+    <div class="group">
+        <h3>Pruebas Cortas (5% c/u)</h3>
+        <input type="number" id="pc1" placeholder="C1" min="0" max="100">
+        <input type="number" id="pc2" placeholder="C2" min="0" max="100">
+        <input type="number" id="pc3" placeholder="C3" min="0" max="100">
+        <input type="number" id="pc4" placeholder="C4" min="0" max="100">
+    </div>
+
+    <div class="group">
+        <h3>Clase de Ejercicios (20%)</h3>
+        <input type="number" id="ejercicios" placeholder="Nota" min="0" max="100">
+    </div>
+
+    <div class="group">
+        <h3>Deberes Opcionales (+2% c/u)</h3>
+        <input type="number" id="d1" placeholder="D1" min="0" max="100">
+        <input type="number" id="d2" placeholder="D2" min="0" max="100">
+        <input type="number" id="d3" placeholder="D3" min="0" max="100">
+    </div>
+
+    <button onclick="calcular()" style="width: 100%; padding: 10px; cursor: pointer;">Calcular Total</button>
+
+    <p class="result" id="total">Total: 0 / 100</p>
+
+    <script>
+        function calcular() {
+            const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+            // Cálculo ponderado
+            let parciales = (getV('p1') + getV('p2') + getV('p3')) * 0.20;
+            let cortas = (getV('pc1') + getV('pc2') + getV('pc3') + getV('pc4')) * 0.05;
+            let ejercicios = getV('ejercicios') * 0.20;
+            let deberes = (getV('d1') + getV('d2') + getV('d3')) * 0.02;
+
+            let final = parciales + cortas + ejercicios + deberes;
+            
+            // Mostrar resultado limitado a 100 o permitiendo extra puntos
+            document.getElementById('total').innerText = "Total: " + final.toFixed(2) + " / 100";
+        }
+    </script>
+</body>
+</html>
